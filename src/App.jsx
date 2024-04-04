@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Register from './page/Register';
 import Login from './page/Login';
 import Home from './page/Home';
+import Dashboard from './page/Dashboard';
 import NotFound from './page/NotFound';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<AuthRoute element={<Register onRegister={handleRegister} />} />} />
         <Route path="/login" element={<AuthRoute element={<Login onLogin={handleLogin} />} />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
