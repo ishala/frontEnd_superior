@@ -20,7 +20,7 @@ function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="max-w-md w-full py-10 px-6 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl font-semibold mb-4">Masuk</h2>
+        <h2 className="text-2xl font-semibold mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -47,7 +47,7 @@ function Login() {
             />
           </div>
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Masuk
+            Login
           </button>
         </form>
       </div>
