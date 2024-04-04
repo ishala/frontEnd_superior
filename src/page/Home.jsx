@@ -1,4 +1,4 @@
-// import Footer from '../component/Footer';
+import Footer from '../component/Footer';
 import backgroundImage from '../assets/img/main_bg.jpg';
 
 function Home() {
@@ -8,6 +8,7 @@ function Home() {
         <h2 className="text-2xl text-center font-semibold mb-4">Welcome to DioPark</h2>
         <p className="text-gray-700 text-center">Sabar ya belom jadi WOIII.</p>
       </div>
+      <Footer />
     </div>
   );
 }
