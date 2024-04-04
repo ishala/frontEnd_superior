@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import Register from './page/Register';
 import Login from './page/Login';
 import Home from './page/Home';
@@ -27,8 +29,16 @@ function App() {
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
 
+  ProtectedRoute.propTypes = {
+    element: PropTypes.element.isRequired
+  };
+
   const AuthRoute = ({ element }) => {
     return isAuthenticated ? <Navigate to="/" /> : element;
+  };
+
+  AuthRoute.propTypes = {
+    element: PropTypes.element.isRequired // Add prop validation
   };
 
   return (
