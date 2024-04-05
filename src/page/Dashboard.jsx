@@ -13,7 +13,7 @@ function Dashboard() {
     const [isBackCamera, setIsBackCamera] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
     const [showQRPopup, setShowQRPopup] = useState(false);
-    const [scanSuccess, setScanSuccess] = useState(false); // New state to track scan success
+    const [scanSuccess, setScanSuccess] = useState(false);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -27,7 +27,12 @@ function Dashboard() {
                     const qrScanner = new QrScanner(videoRef.current, result => {
                         setResult(result);
                         setScanning(false);
-                        setScanSuccess(true); // Set scan success to true when QR is scanned successfully
+                        setScanSuccess(true);
+
+                        // Setelah 3 detik, set kembali scanSuccess menjadi false
+                        setTimeout(() => {
+                            setScanSuccess(false);
+                        }, 3000);
                     });
                     qrScanner.start();
                 })
@@ -141,7 +146,7 @@ function Dashboard() {
                         </button>
                     </div>
                 )}
-                {scanSuccess && ( // Display message only when scan success is true
+                {scanSuccess && (
                     <div className="mt-4 text-center text-green-500 font-semibold">
                         Scan Berhasil
                     </div>
