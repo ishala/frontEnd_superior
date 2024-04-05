@@ -13,6 +13,7 @@ function Dashboard() {
     const [isBackCamera, setIsBackCamera] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
     const [showQRPopup, setShowQRPopup] = useState(false);
+    const [successAlert, setSuccessAlert] = useState(false); // State untuk menampilkan alert "Berhasil"
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -26,6 +27,7 @@ function Dashboard() {
                     const qrScanner = new QrScanner(videoRef.current, result => {
                         setResult(result);
                         setScanning(false);
+                        setSuccessAlert(true); // Menampilkan alert "Berhasil" setelah pemindaian QR berhasil
                     });
                     qrScanner.start();
                 })
@@ -167,6 +169,14 @@ function Dashboard() {
                         <div className='flex items-center justify-center'>
                             <button onClick={TutupAlert} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Tutup</button>
                         </div>
+                    </div>
+                </div>
+            )}
+            {/* Alert "Berhasil" */}
+            {successAlert && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <div className="bg-white p-6 rounded-md shadow-lg">
+                        <p className="text-lg text-center text-green-500 font-semibold">Berhasil</p>
                     </div>
                 </div>
             )}
