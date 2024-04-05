@@ -47,7 +47,17 @@ function Dashboard() {
     }, [scanning, isBackCamera]);
 
     const toggleTorch = () => {
-        // Add your torch toggle logic here
+        if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject;
+            const videoTracks = stream.getVideoTracks();
+            videoTracks.forEach(track => {
+                if (track.getCapabilities().torch) {
+                    track.applyConstraints({
+                        advanced: [{ torch: !track.getSettings().torch }]
+                    });
+                }
+            });
+        }
     };
 
     const handleImageUpload = () => {
