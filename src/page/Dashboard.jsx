@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import QrScanner from 'qr-scanner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faTimes, faBolt, faUpload, faSync, faHistory, faUserCircle, faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faTimes, faBolt, faUpload, faSync, faUserCircle, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../assets/img/main_bg.jpg';
 import QRCodeImage from '../assets/img/qr.jpg';
 import Footer from '../component/Footer';
