@@ -25,7 +25,7 @@ function Register() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-md w-full py-10 px-6 bg-white shadow-md rounded-md">
+      <div className="max-w-md w-full py-10 px-6 bg-white shadow-md rounded-md" style={{maxWidth: 'calc(55vw - -85px)', borderRadius: '20px'}}>
         <h2 className="text-2xl text-center font-semibold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
