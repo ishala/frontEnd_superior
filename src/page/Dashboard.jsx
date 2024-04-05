@@ -14,7 +14,6 @@ function Dashboard() {
     const [showAlert, setShowAlert] = useState(false);
     const [showQRPopup, setShowQRPopup] = useState(false);
     const [scanSuccess, setScanSuccess] = useState(false);
-    const [scanFailed, setScanFailed] = useState(false);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -28,17 +27,11 @@ function Dashboard() {
                     const qrScanner = new QrScanner(videoRef.current, result => {
                         setResult(result);
                         setScanning(false);
-                        if (result) {
-                            setScanSuccess(true);
-                            setScanFailed(false);
-                        } else {
-                            setScanSuccess(false);
-                            setScanFailed(true);
-                        }
+                        setScanSuccess(true);
 
+                        // Setelah 3 detik, set kembali scanSuccess menjadi false
                         setTimeout(() => {
                             setScanSuccess(false);
-                            setScanFailed(false);
                         }, 3000);
                     });
                     qrScanner.start();
@@ -156,11 +149,6 @@ function Dashboard() {
                 {scanSuccess && (
                     <div className="mt-4 text-center text-green-500 font-semibold">
                         Scan Berhasil
-                    </div>
-                )}
-                {scanFailed && (
-                    <div className="mt-4 text-center text-red-500 font-semibold">
-                        Scan Gagal
                     </div>
                 )}
             </div>
