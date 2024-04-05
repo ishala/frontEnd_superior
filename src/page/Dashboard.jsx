@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import QrScanner from 'qr-scanner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faTimes, faCamera, faUpload, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faTimes, faBolt, faUpload, faSync } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../assets/img/main_bg.jpg';
 import Footer from '../component/Footer';
 
@@ -93,8 +93,9 @@ function Dashboard() {
                             <FontAwesomeIcon icon={faTimes} size="2x" />
                         </button>
                         <button onClick={toggleTorch} className="absolute top-2 left-2 text-yellow-500">
-                            <FontAwesomeIcon icon={faCamera} size="2x" />
+                            <FontAwesomeIcon icon={faBolt} size="2x" />
                         </button>
+
                         <button onClick={flipCamera} className="absolute top-2 right-10 text-blue-500">
                             <FontAwesomeIcon icon={faSync} size="2x" />
                         </button>
