@@ -89,7 +89,7 @@ function Dashboard() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md rounded-md lg:max-w-lg lg:mx-auto" style={{ borderRadius: '20px', maxWidth: 'calc(100vw - 40px)' }}>
+            <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md lg:max-w-lg lg:mx-auto" style={{ borderRadius: '20px', maxWidth: 'calc(55vw - -85px)', margin: '0 10px' }}>
                 <h2 className="text-2xl text-center font-semibold mb-4">
                     Parkir lebih mudah dengan DioPark, Tinggal scan aja dibawah ini
                 </h2>
