@@ -105,8 +105,8 @@ function Dashboard() {
             {/* Tombol Riwayat Transaksi */}
             <button className="absolute top-4 right-4" style={{ backgroundColor: 'transparent' }}>
                 <div className="bg-white bg-opacity-50 rounded-lg p-2 cursor-pointer">
-                <FontAwesomeIcon icon={faFileLines} size="2x" />
-                <p className='font-semibold' style={{fontSize: '10px'}}>Riwayat</p>
+                <FontAwesomeIcon icon={faFileLines} size="1x" />
+                <p className='font-semibold' style={{fontSize: '7px'}}>Riwayat</p>
                 </div>
                 
             </button>
