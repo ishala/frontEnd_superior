@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import QrScanner from 'qr-scanner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faTimes, faCamera, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faTimes, faCamera, faUpload, faSync } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../assets/img/main_bg.jpg';
 import Footer from '../component/Footer';
 
@@ -9,6 +9,7 @@ function Dashboard() {
     const [result, setResult] = useState('');
     const [scanning, setScanning] = useState(false);
     const [cameraImage, setCameraImage] = useState(null);
+    const [isBackCamera, setIsBackCamera] = useState(true);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -17,10 +18,12 @@ function Dashboard() {
         }
         // Cleanup function to stop camera when component unmounts
         return () => stopCamera();
-    }, [scanning]);
+    }, [scanning, isBackCamera]);
 
     const startCamera = () => {
-        navigator.mediaDevices.getUserMedia({ video: true })
+        const facingMode = isBackCamera ? 'environment' : 'user';
+        const constraints = { video: { facingMode: { exact: facingMode } } };
+        navigator.mediaDevices.getUserMedia(constraints)
             .then(stream => {
                 videoRef.current.srcObject = stream;
                 videoRef.current.play();
@@ -53,6 +56,11 @@ function Dashboard() {
         // Add your image upload logic here
     };
 
+    const flipCamera = () => {
+        setIsBackCamera(!isBackCamera);
+        setScanning(false);
+    };
+
     return (
         <div className="flex items-center justify-center min-h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md rounded-md" style={{ borderRadius: '20px' }}>
@@ -78,6 +86,9 @@ function Dashboard() {
                         </button>
                         <button onClick={toggleTorch} className="absolute top-2 left-2 text-yellow-500">
                             <FontAwesomeIcon icon={faCamera} />
+                        </button>
+                        <button onClick={flipCamera} className="absolute top-2 right-10 text-blue-500">
+                            <FontAwesomeIcon icon={faSync} />
                         </button>
                     </div>
                 )}
