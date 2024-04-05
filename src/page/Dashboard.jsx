@@ -13,7 +13,7 @@ function Dashboard() {
     const [isBackCamera, setIsBackCamera] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
     const [showQRPopup, setShowQRPopup] = useState(false);
-    const [successAlert, setSuccessAlert] = useState(false); // State untuk menampilkan alert "Berhasil"
+    const [scanSuccess, setScanSuccess] = useState(false); // New state to track scan success
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ function Dashboard() {
                     const qrScanner = new QrScanner(videoRef.current, result => {
                         setResult(result);
                         setScanning(false);
-                        setSuccessAlert(true); // Menampilkan alert "Berhasil" setelah pemindaian QR berhasil
+                        setScanSuccess(true); // Set scan success to true when QR is scanned successfully
                     });
                     qrScanner.start();
                 })
@@ -107,10 +107,9 @@ function Dashboard() {
             {/* Tombol Riwayat Transaksi */}
             <button className="absolute top-4 right-4" style={{ backgroundColor: 'transparent' }}>
                 <div className="bg-white bg-opacity-50 rounded-lg p-2 cursor-pointer">
-                <FontAwesomeIcon icon={faFileLines} size="1x" />
-                <p className='font-semibold' style={{fontSize: '7px'}}>Riwayat</p>
+                    <FontAwesomeIcon icon={faFileLines} size="1x" />
+                    <p className='font-semibold' style={{fontSize: '7px'}}>Riwayat</p>
                 </div>
-                
             </button>
             <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md lg:max-w-lg lg:mx-auto relative" style={{ borderRadius: '20px', maxWidth: 'calc(55vw - -85px)', margin: '0 10px' }}>
                 <h2 className="text-2xl text-center font-semibold mb-4">
@@ -142,9 +141,9 @@ function Dashboard() {
                         </button>
                     </div>
                 )}
-                {result && (
-                    <div className="mt-4">
-                        <p>Hasil scan: {result}</p>
+                {scanSuccess && ( // Display message only when scan success is true
+                    <div className="mt-4 text-center text-green-500 font-semibold">
+                        Scan Berhasil
                     </div>
                 )}
             </div>
@@ -157,7 +156,6 @@ function Dashboard() {
                         <div className='flex items-center justify-center'>
                             <button onClick={toggleQRPopup} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Tutup</button>
                         </div>
-
                     </div>
                 </div>
             )}
@@ -169,14 +167,6 @@ function Dashboard() {
                         <div className='flex items-center justify-center'>
                             <button onClick={TutupAlert} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Tutup</button>
                         </div>
-                    </div>
-                </div>
-            )}
-            {/* Alert "Berhasil" */}
-            {successAlert && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-                    <div className="bg-white p-6 rounded-md shadow-lg">
-                        <p className="text-lg text-center text-green-500 font-semibold">Berhasil</p>
                     </div>
                 </div>
             )}
