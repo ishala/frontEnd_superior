@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import QrScanner from 'qr-scanner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faTimes, faBolt, faUpload, faSync, faHistory, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faTimes, faBolt, faUpload, faSync, faHistory, faUserCircle, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../assets/img/main_bg.jpg';
 import QRCodeImage from '../assets/img/qr.jpg';
 import Footer from '../component/Footer';
@@ -79,7 +79,7 @@ function Dashboard() {
         }
     };
 
-    const closeAlert = () => {
+    const TutupAlert = () => {
         setShowAlert(false);
     };
 
@@ -103,8 +103,12 @@ function Dashboard() {
                 </div>
             </div>
             {/* Tombol Riwayat Transaksi */}
-            <button className="absolute top-4 right-4 text-gray-700" style={{ backgroundColor: 'transparent' }}>
-                <FontAwesomeIcon icon={faHistory} size="2x" />
+            <button className="absolute top-4 right-4" style={{ backgroundColor: 'transparent' }}>
+                <div className="bg-white bg-opacity-50 rounded-lg p-2 cursor-pointer">
+                <FontAwesomeIcon icon={faFileLines} size="2x" />
+                <p className='font-semibold' style={{fontSize: '10px'}}>Riwayat</p>
+                </div>
+                
             </button>
             <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md lg:max-w-lg lg:mx-auto relative" style={{ borderRadius: '20px', maxWidth: 'calc(55vw - -85px)', margin: '0 10px' }}>
                 <h2 className="text-2xl text-center font-semibold mb-4">
@@ -146,10 +150,10 @@ function Dashboard() {
             {showQRPopup && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
                     <div className="bg-white p-6 rounded-md shadow-lg">
-                        <p className="text-center">Personal QR Code</p>
+                        <p className="text-center">QR Code Pribadi</p>
                         <img src={QRCodeImage} alt="QR Code" className="mx-auto mt-4" />
                         <div className='flex items-center justify-center'>
-                            <button onClick={toggleQRPopup} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Close</button>
+                            <button onClick={toggleQRPopup} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Tutup</button>
                         </div>
 
                     </div>
@@ -161,7 +165,7 @@ function Dashboard() {
                     <div className="bg-white p-6 rounded-md shadow-lg">
                         <p className="text-lg text-center">Silahkan akses menggunakan handphone</p>
                         <div className='flex items-center justify-center'>
-                            <button onClick={closeAlert} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Close</button>
+                            <button onClick={TutupAlert} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Tutup</button>
                         </div>
                     </div>
                 </div>
