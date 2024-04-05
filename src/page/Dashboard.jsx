@@ -66,7 +66,6 @@ function Dashboard() {
 
     const flipCamera = () => {
         setIsBackCamera(!isBackCamera);
-        setScanning(false);
     };
 
     return (
