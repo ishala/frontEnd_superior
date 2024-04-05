@@ -13,40 +13,38 @@ function Dashboard() {
     const videoRef = useRef(null);
 
     useEffect(() => {
+        const startCamera = () => {
+            const facingMode = isBackCamera ? 'environment' : 'user';
+            const constraints = { video: { facingMode: { exact: facingMode } } };
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(stream => {
+                    videoRef.current.srcObject = stream;
+                    videoRef.current.play();
+                    const qrScanner = new QrScanner(videoRef.current, result => {
+                        setResult(result);
+                        setScanning(false);
+                    });
+                    qrScanner.start();
+                })
+                .catch(error => {
+                    console.error('Failed to start camera:', error);
+                    setScanning(false);
+                });
+        };
+
         if (scanning && videoRef.current) {
             startCamera();
         }
         // Cleanup function to stop camera when component unmounts
-        return () => stopCamera();
+        return () => {
+            if (videoRef.current && videoRef.current.srcObject) {
+                const stream = videoRef.current.srcObject;
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+                videoRef.current.srcObject = null;
+            }
+        };
     }, [scanning, isBackCamera]);
-
-    const startCamera = () => {
-        const facingMode = isBackCamera ? 'environment' : 'user';
-        const constraints = { video: { facingMode: { exact: facingMode } } };
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then(stream => {
-                videoRef.current.srcObject = stream;
-                videoRef.current.play();
-                const qrScanner = new QrScanner(videoRef.current, result => {
-                    setResult(result);
-                    setScanning(false);
-                });
-                qrScanner.start();
-            })
-            .catch(error => {
-                console.error('Failed to start camera:', error);
-                setScanning(false);
-            });
-    };
-
-    const stopCamera = () => {
-        if (videoRef.current && videoRef.current.srcObject) {
-            const stream = videoRef.current.srcObject;
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-            videoRef.current.srcObject = null;
-        }
-    };
 
     const toggleTorch = () => {
         // Add your torch toggle logic here
@@ -82,13 +80,13 @@ function Dashboard() {
                     <div className="relative">
                         <video ref={videoRef} style={{ width: '100%', borderRadius: '10px' }} />
                         <button onClick={() => { setScanning(false); setCameraImage(null); }} className="absolute top-2 right-2 text-red-500">
-                            <FontAwesomeIcon icon={faTimes} />
+                            <FontAwesomeIcon icon={faTimes} size="2x" />
                         </button>
                         <button onClick={toggleTorch} className="absolute top-2 left-2 text-yellow-500">
-                            <FontAwesomeIcon icon={faCamera} />
+                            <FontAwesomeIcon icon={faCamera} size="2x" />
                         </button>
                         <button onClick={flipCamera} className="absolute top-2 right-10 text-blue-500">
-                            <FontAwesomeIcon icon={faSync} />
+                            <FontAwesomeIcon icon={faSync} size="2x" />
                         </button>
                     </div>
                 )}
