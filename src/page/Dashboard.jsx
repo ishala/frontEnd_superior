@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import QrScanner from 'qr-scanner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQrcode, faTimes, faBolt, faUpload, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faQrcode, faTimes, faBolt, faUpload, faSync, faHistory, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import backgroundImage from '../assets/img/main_bg.jpg';
+import QRCodeImage from '../assets/img/qr.jpg';
 import Footer from '../component/Footer';
 
 function Dashboard() {
@@ -11,6 +12,7 @@ function Dashboard() {
     const [cameraImage, setCameraImage] = useState(null);
     const [isBackCamera, setIsBackCamera] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
+    const [showQRPopup, setShowQRPopup] = useState(false);
     const videoRef = useRef(null);
 
     useEffect(() => {
@@ -81,6 +83,10 @@ function Dashboard() {
         setShowAlert(false);
     };
 
+    const toggleQRPopup = () => {
+        setShowQRPopup(!showQRPopup);
+    };
+
     // Function to detect if the user is on a mobile device
     const isMobile = () => {
         const userAgent = navigator.userAgent;
@@ -89,7 +95,18 @@ function Dashboard() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen" style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md lg:max-w-lg lg:mx-auto" style={{ borderRadius: '20px', maxWidth: 'calc(55vw - -85px)', margin: '0 10px' }}>
+            {/* Foto Profil dan Nama */}
+            <div className="absolute top-4 left-4">
+                <div className="bg-white bg-opacity-50 rounded-lg p-2 flex items-center cursor-pointer" onClick={toggleQRPopup}>
+                    <FontAwesomeIcon icon={faUserCircle} size="2x" className="mr-2" />
+                    <span className="text-lg font-semibold">Hai Superior</span>
+                </div>
+            </div>
+            {/* Tombol Riwayat Transaksi */}
+            <button className="absolute top-4 right-4 text-gray-700" style={{ backgroundColor: 'transparent' }}>
+                <FontAwesomeIcon icon={faHistory} size="2x" />
+            </button>
+            <div className="max-w-md w-full py-10 px-6 bg-white bg-opacity-50 shadow-md lg:max-w-lg lg:mx-auto relative" style={{ borderRadius: '20px', maxWidth: 'calc(55vw - -85px)', margin: '0 10px' }}>
                 <h2 className="text-2xl text-center font-semibold mb-4">
                     Parkir lebih mudah dengan DioPark, Tinggal scan aja dibawah ini
                 </h2>
@@ -125,14 +142,27 @@ function Dashboard() {
                     </div>
                 )}
             </div>
+            {/* QR Popup */}
+            {showQRPopup && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+                    <div className="bg-white p-6 rounded-md shadow-lg">
+                        <p className="text-center">Personal QR Code</p>
+                        <img src={QRCodeImage} alt="QR Code" className="mx-auto mt-4" />
+                        <div className='flex items-center justify-center'>
+                            <button onClick={toggleQRPopup} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+            {/* Alert */}
             {showAlert && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
                     <div className="bg-white p-6 rounded-md shadow-lg">
                         <p className="text-lg text-center">Silahkan akses menggunakan handphone</p>
                         <div className='flex items-center justify-center'>
-                            <button onClick={closeAlert} className="bg-gray-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-gray-600">Tutup</button>
+                            <button onClick={closeAlert} className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-600">Close</button>
                         </div>
-
                     </div>
                 </div>
             )}
