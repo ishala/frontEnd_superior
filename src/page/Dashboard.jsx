@@ -14,11 +14,10 @@ function Dashboard() {
     const [showAlert, setShowAlert] = useState(false);
     const [showQRPopup, setShowQRPopup] = useState(false);
     const [scanSuccess, setScanSuccess] = useState(false);
+    const [scanFailed, setScanFailed] = useState(false);
     const videoRef = useRef(null);
 
     useEffect(() => {
-        let animationFrameId;
-
         const startCamera = () => {
             const facingMode = isBackCamera ? 'environment' : 'user';
             const constraints = { video: { facingMode: { exact: facingMode } } };
@@ -29,14 +28,21 @@ function Dashboard() {
                     const qrScanner = new QrScanner(videoRef.current, result => {
                         setResult(result);
                         setScanning(false);
-                        setScanSuccess(true);
-                        // Setelah 3 detik, set kembali scanSuccess menjadi false
+                        if (result) {
+                            setScanSuccess(true);
+                            setScanFailed(false);
+                        } else {
+                            setScanSuccess(false);
+                            setScanFailed(true);
+                        }
+
+                        // Setelah 3 detik, set kembali scanSuccess dan scanFailed menjadi false
                         setTimeout(() => {
                             setScanSuccess(false);
+                            setScanFailed(false);
                         }, 3000);
                     });
                     qrScanner.start();
-                    updateCamera(); // Panggil fungsi untuk memperbarui tampilan kamera
                 })
                 .catch(error => {
                     console.error('Failed to start camera:', error);
@@ -44,26 +50,11 @@ function Dashboard() {
                 });
         };
 
-        const updateCamera = () => {
-            animationFrameId = requestAnimationFrame(updateCamera);
-            if (videoRef.current) {
-                const video = videoRef.current;
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                canvas.toDataURL('image/webp');
-            }
-        };
-
         if (scanning && videoRef.current) {
             startCamera();
         }
+        // Cleanup function to stop camera when component unmounts
         return () => {
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
             if (videoRef.current && videoRef.current.srcObject) {
                 const stream = videoRef.current.srcObject;
                 const tracks = stream.getTracks();
@@ -111,6 +102,7 @@ function Dashboard() {
         setShowQRPopup(!showQRPopup);
     };
 
+    // Function to detect if the user is on a mobile device
     const isMobile = () => {
         const userAgent = navigator.userAgent;
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
@@ -165,6 +157,11 @@ function Dashboard() {
                 {scanSuccess && (
                     <div className="mt-4 text-center text-green-500 font-semibold">
                         Scan Berhasil
+                    </div>
+                )}
+                {scanFailed && (
+                    <div className="mt-4 text-center text-red-500 font-semibold">
+                        Scan Gagal
                     </div>
                 )}
             </div>
